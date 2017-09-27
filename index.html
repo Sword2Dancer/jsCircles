@@ -38,6 +38,27 @@
 
 		this.update = function(time){
 			var el = document.getElementById(html_id);
+			// adjust to the screen 
+			var w = window.innerWidth;
+    		var h = window.innerHeight;
+    		var s = document.getElementById('svg');
+    		s.setAttribute('width', w);
+    		s.setAttribute('height', h);
+    		// if( this.info.cx + 10 > w || this.info.cx - 10 < 0)
+            // if( this.info.cy + 10 > h || this.info.cy - 10 < 0)
+            // this.createNewCircle(w/2, h/2);
+    		//...
+   			window.onload = function() {
+       			setInterval(playground.loop, 15);
+    		};
+   			//...
+    		window.onresize = function() {
+      			w = window.innerWidth;
+       			h = window.innerHeight;
+       			s.setAttribute('width', w);
+       			s.setAttribute('height', h);
+    		};
+
 
 			//see if the circle is going outside the browser. if it is, reverse the velocity
 			if( this.info.cx > document.body.clientWidth || this.info.cx < 0)
