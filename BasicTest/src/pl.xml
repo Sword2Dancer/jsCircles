@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<s:tasBlueprint xmlns:s="http://xmlns.schemas.oracle.com/tasBlueprint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.schemas.oracle.com/tasBlueprint TasBlueprint.xsd ">
+  <s:serviceCatalog>
+    <s:name>DVCS</s:name>
+    <s:displayName>Oracle Data Visualization Cloud Service</s:displayName>
+    <s:serviceCategory>PAAS</s:serviceCategory>
+    <s:serviceConfiguration>
+      <s:name>MINI</s:name>
+      <s:displayName>Oracle Data Visualization Cloud Service - Trial</s:displayName>
+      <s:description>Oracle Data Visualization Cloud Service - Trial</s:description>
+      <s:rank>1</s:rank>
+      <s:offeringType>TRIAL</s:offeringType>
+    </s:serviceConfiguration>
+    <s:serviceConfiguration>
+      <s:name>CUSTOM</s:name>
+      <s:displayName>Oracle Data Visualization Cloud Service</s:displayName>
+      <s:description>Oracle Data Visualization Cloud Service</s:description>
+      <s:rank>2</s:rank>
+      <s:offeringType>PAID</s:offeringType>
+      <s:customAttributeInfo>
+        <!-- No custom attributes will be prompted to user for this service config for non CIM route -->
+        <s:useSelectedCustomAttributes>true</s:useSelectedCustomAttributes>
+        <s:selectedCustomAttributeNames></s:selectedCustomAttributeNames>
+      </s:customAttributeInfo>
+    </s:serviceConfiguration>
+    <s:serviceSettings>
+      <s:trialSettings>
+        <s:trialDurationDays>30</s:trialDurationDays>
+        <s:numberOfAllowedConcurrentTrials>1</s:numberOfAllowedConcurrentTrials>
+        <s:daysBetweenTrials>15</s:daysBetweenTrials>
+      </s:trialSettings>
+      <s:archiveSettings>
+        <s:archiveMode>SOFT</s:archiveMode>  
+      </s:archiveSettings>
+      <s:enableRoutingTierAccessControl>true</s:enableRoutingTierAccessControl>
+    </s:serviceSettings>
+      <s:cloudCreditConfig>
+            <s:cloudCreditType>CLOUDCM</s:cloudCreditType>
+            <s:offeringType>PAID</s:offeringType>
+      </s:cloudCreditConfig>
+    <s:subscriptionConfig>
+      <s:subscriptionModel>ALL</s:subscriptionModel>
+      <s:entitledResources>
+        <s:entitledResource>
+          <s:resourceName>DVCS_HOSTED_NAMED_USER</s:resourceName>
+          <s:serviceComponentInfoList>
+            <s:serviceComponentInfo>
+              <s:component>B84522</s:component>
+              <s:unitConversionFactor>1</s:unitConversionFactor>
+            </s:serviceComponentInfo>
+          </s:serviceComponentInfoList>
+        </s:entitledResource>
+      </s:entitledResources>
+    </s:subscriptionConfig>
+    <s:commonInstanceManagerConfig>
+      <s:commonInstanceManagerEnabled>true</s:commonInstanceManagerEnabled>
+      <s:unsupportedServiceConfigs>
+        <s:name>MINI</s:name>
+      </s:unsupportedServiceConfigs>
+      <s:serviceComponentXmlInfoList>
+        <s:serviceComponentXmlInfo>
+          <!-- Applies to both CREATE_INSTANCE and UPDATE_INSTANCE -->
+          <s:requestType>ALL</s:requestType>
+          <s:configNames>
+            <s:configName>CUSTOM</s:configName>
+          </s:configNames>
+          <s:xmlFileName>tasbp-dvcs-custom.xml</s:xmlFileName>
+        </s:serviceComponentXmlInfo>
+      </s:serviceComponentXmlInfoList>
+      <s:optionConfiguration>
+        <s:name>ChooseHostedNamedUser</s:name>
+        <s:displayName>Select number of users</s:displayName>
+        <!-- This option is applicable for only paid subscriptions -->
+        <s:offeringType>PAID</s:offeringType>
+        <s:applicableResources>
+          <s:applicableResource>
+            <s:resourceName>DVCS_HOSTED_NAMED_USER</s:resourceName>
+            <s:resourceValues>
+              <s:customAttributeName>NumHostedNamedUsersAttrib</s:customAttributeName>
+            </s:resourceValues>
+          </s:applicableResource>
+		  <s:applicableResource>
+            <s:resourceName>DVCS_HOSTED_NAMED_USER_HOURLY</s:resourceName>
+            <s:resourceValues>
+              <s:customAttributeName>NumHostedNamedUsersHourlyAttrib</s:customAttributeName>
+            </s:resourceValues>
+          </s:applicableResource>
+        </s:applicableResources>
+        <s:customAttributeInfo>
+          <s:useSelectedCustomAttributes>true</s:useSelectedCustomAttributes>
+          <s:selectedCustomAttributeNames>
+            <s:name>NumHostedNamedUsersAttrib</s:name>
+			<s:name>NumHostedNamedUsersHourlyAttrib</s:name>
+          </s:selectedCustomAttributeNames>
+        </s:customAttributeInfo>
+        <s:applicableConfigs>
+          <s:applicableConfig>
+            <s:configName>CUSTOM</s:configName>
+            <s:requestTypes>
+              <s:requestType>CREATE_INSTANCE</s:requestType>
+              <s:requestType>UPDATE_INSTANCE</s:requestType>
+            </s:requestTypes>
+          </s:applicableConfig>
+        </s:applicableConfigs>
+      </s:optionConfiguration>
+    </s:commonInstanceManagerConfig>
+  </s:serviceCatalog>
+  <s:customAttributes>
+    <s:customAttributesSection>
+      <s:header>General</s:header>
+      <s:header_translationKey>general.header</s:header_translationKey>
+      <s:displayOrder>1</s:displayOrder>
+      <s:offeringType>PAID</s:offeringType>
+      <s:customAttribute>
+        <s:name>NumHostedNamedUsersAttrib</s:name>
+        <s:displayName>Select the number of users</s:displayName>
+        <s:displayName_translationKey>numHostedNamedUsers.displayName</s:displayName_translationKey>
+        <s:inputType>INPUT_TEXT</s:inputType>
+		<s:allowedSubscriptionModel>SERVICE_ENTITLEMENT</s:allowedSubscriptionModel>
+        <s:type>NUMBER</s:type>
+        <s:readOnly>false</s:readOnly>
+        <s:isRequired>true</s:isRequired>
+        <s:displayOrder>1</s:displayOrder>
+        <!-- Filters for custom attribute values. With the use of this section, user is bound to pick values either in a 
+          range or a subset of values dependening on certain criteria, if any. -->
+        <s:filters>
+          <s:filter>
+            <s:filterCriteria>
+              <s:serviceConfig>CUSTOM</s:serviceConfig>
+            </s:filterCriteria>
+            <s:allowedRange>
+              <s:min>1</s:min>
+	      <s:max>99999</s:max>
+            </s:allowedRange>
+          </s:filter>
+        </s:filters>
+      </s:customAttribute>
+	  <s:customAttribute>
+        <s:name>NumHostedNamedUsersHourlyAttrib</s:name>
+        <s:displayName>Select the number of users</s:displayName>
+        <s:displayName_translationKey>numHostedNamedUsers.displayName</s:displayName_translationKey>
+        <s:inputType>INPUT_TEXT</s:inputType>
+		<s:allowedSubscriptionModel>CLOUD_CREDIT</s:allowedSubscriptionModel>
+        <s:type>NUMBER</s:type>
+        <s:readOnly>false</s:readOnly>
+        <s:isRequired>true</s:isRequired>
+        <s:displayOrder>1</s:displayOrder>
+        <!-- Filters for custom attribute values. With the use of this section, user is bound to pick values either in a 
+          range or a subset of values dependening on certain criteria, if any. -->
+        <s:filters>
+          <s:filter>
+            <s:filterCriteria>
+              <s:serviceConfig>CUSTOM</s:serviceConfig>
+            </s:filterCriteria>
+            <s:allowedRange>
+              <s:min>1</s:min>
+	      <s:max>99999</s:max>
+            </s:allowedRange>
+          </s:filter>
+        </s:filters>
+      </s:customAttribute>
+    </s:customAttributesSection>
+  </s:customAttributes>
+  <s:notificationTemplate />
+  <!-- Metrics - The top 2 metrics are displayed on the Overview page in Cloud UI (determined by displayOrder) - Historical 
+    metrics have Ui that tracks values per day (via displayTimingType set to HISTORICAL and not CURRENT) -->
+  <s:metricInfo>
+    <s:serviceInstanceKey>Oracle Data Visualization Cloud Service</s:serviceInstanceKey>
+    <!-- Num BI Consumers that logged in this month -->
+    <s:metric>
+      <s:id>Num_Distinct_Login.count</s:id>
+      <s:displayInfo>
+        <s:displayName>DVCS Consumers This Month</s:displayName>
+        <s:displayDescription>The number of DVCS Consumers that logged in this month</s:displayDescription>
+        <s:displayOrder>1</s:displayOrder>
+        <s:displayUnit>Count</s:displayUnit>
+        <s:displayTimingType>CURRENT</s:displayTimingType>
+        <s:displayGroupName>Billing Metrics</s:displayGroupName>
+      </s:displayInfo>
+      <s:sourceInfo>
+        <s:metricName>NumBIConsumersThisMonth</s:metricName>
+        <s:metricUnit>Count</s:metricUnit>
+        <s:metricTimingType>CURRENT</s:metricTimingType>
+        <s:aggregationType>NONE</s:aggregationType>
+      </s:sourceInfo>
+      <s:isVisibleInPortal>true</s:isVisibleInPortal>
+      <s:srvcComponentInfo>
+        <!-- Must match <identifier> field of one of the service components defined for the service -->
+        <s:component>HOSTED NAMED USER</s:component>
+        <!-- Fraction that represents metric unit divided by service component unit Value must be either a real number or 
+          in numerator/denominator format -->
+        <s:unitConversionFactor>1</s:unitConversionFactor>
+      </s:srvcComponentInfo>
+    </s:metric>
+    <s:metric>
+      <s:id>Num_Distinct_Login.total_count</s:id>
+      <s:displayInfo>
+        <s:displayName>DVCS Consumers This Month</s:displayName>
+        <s:displayDescription>The number of DVCS Consumers that logged in each day</s:displayDescription>
+        <s:displayOrder>1</s:displayOrder>
+        <s:displayUnit>SUM</s:displayUnit>
+        <s:displayTimingType>HISTORICAL</s:displayTimingType>
+        <s:displayGroupName>Billing Metrics</s:displayGroupName>
+      </s:displayInfo>
+      <s:sourceInfo>
+        <s:metricName>NumBIConsumersThisMonth</s:metricName>
+        <s:metricUnit>SUM</s:metricUnit>
+        <s:metricTimingType>DAILY_ROLLUP</s:metricTimingType>
+        <s:aggregationType>MAX</s:aggregationType>
+      </s:sourceInfo>
+      <s:isVisibleInPortal>true</s:isVisibleInPortal>
+    </s:metric>
+    <!-- Num BI Admins that logged in this month -->
+    <s:metric>
+      <s:id>Num_Users_With_BIAdmin_Role.count</s:id>
+      <s:displayInfo>
+        <s:displayName>DVCS Admins This Month</s:displayName>
+        <s:displayDescription>The number of DVCS Admins that logged in this month</s:displayDescription>
+        <s:displayOrder>4</s:displayOrder>
+        <s:displayUnit>Count</s:displayUnit>
+        <s:displayTimingType>CURRENT</s:displayTimingType>
+        <s:displayGroupName>Billing Metrics</s:displayGroupName>
+      </s:displayInfo>
+      <s:sourceInfo>
+        <s:metricName>NumAdminUsersThisMonth</s:metricName>
+        <s:metricUnit>Count</s:metricUnit>
+        <s:metricTimingType>CURRENT</s:metricTimingType>
+        <s:aggregationType>NONE</s:aggregationType>
+      </s:sourceInfo>
+      <s:isVisibleInPortal>true</s:isVisibleInPortal>
+    </s:metric>
+    <s:metric>
+      <s:id>Num_Users_With_BIAdmin_Role.total_count</s:id>
+      <s:displayInfo>
+        <s:displayName>DVCS Admins This Month</s:displayName>
+        <s:displayDescription>The number of DVCS Admins that logged in each day</s:displayDescription>
+        <s:displayOrder>4</s:displayOrder>
+        <s:displayUnit>SUM</s:displayUnit>
+        <s:displayTimingType>HISTORICAL</s:displayTimingType>
+        <s:displayGroupName>Billing Metrics</s:displayGroupName>
+      </s:displayInfo>
+      <s:sourceInfo>
+        <s:metricName>NumAdminUsersThisMonth</s:metricName>
+        <s:metricUnit>SUM</s:metricUnit>
+        <s:metricTimingType>DAILY_ROLLUP</s:metricTimingType>
+        <s:aggregationType>MAX</s:aggregationType>
+      </s:sourceInfo>
+      <s:isVisibleInPortal>true</s:isVisibleInPortal>
+    </s:metric>
+    <!-- Percentage time service has been available -->
+    <s:metric>
+      <s:id>AvailabilityPercentage.latest</s:id>
+      <s:displayInfo>
+        <s:displayName>Service availability in percentage</s:displayName>
+        <s:displayDescription>This stores the percentage of time service was available</s:displayDescription>
+        <s:displayOrder>5</s:displayOrder>
+        <s:displayUnit>Count</s:displayUnit>
+        <s:displayTimingType>CURRENT</s:displayTimingType>
+        <s:displayGroupName>Availability</s:displayGroupName>
+      </s:displayInfo>
+      <s:sourceInfo>
+        <s:metricName>availabilityPercentage</s:metricName>
+        <s:metricUnit>Count</s:metricUnit>
+        <s:metricTimingType>CURRENT</s:metricTimingType>
+        <s:aggregationType>NONE</s:aggregationType>
+      </s:sourceInfo>
+      <s:isVisibleInPortal>true</s:isVisibleInPortal>
+    </s:metric>
+  </s:metricInfo>
+  <s:serviceInstanceRelationships />
+  <s:resourceInfoList>
+    <s:resource>
+      <!-- TODO: this section needs to be cleaned to keep mimimum attributes -->
+      <s:resourceName>DVCS_HOSTED_NAMED_USER</s:resourceName>
+      <s:description>Oracle Data Visualization Cloud Service - Hosted Named User</s:description>
+      <s:displayName>Hosted Named Users</s:displayName>
+      <s:aggregationMultiplier>Monthly</s:aggregationMultiplier>
+      <s:gsiUsageUnit>Hosted Named Users per Month</s:gsiUsageUnit>
+      <!-- not reporting a breach as of now -->
+      <!--s:resourceLimit><s:limitValue><s:limitType>TRIAL</s:limitType><s:limit>2</s:limit></s:limitValue></s:resourceLimit -->
+      <!--s:usagePolicy><s:pointToHoursAggregator>MAX</s:pointToHoursAggregator></s:usagePolicy -->
+    </s:resource>
+	<s:resource>      
+      <s:resourceName>DVCS_HOSTED_NAMED_USER_HOURLY</s:resourceName>
+      <s:description>Oracle Data Visualization Cloud Service - Hosted Named User</s:description>
+      <s:displayName>Hosted Named Users</s:displayName>
+      <s:aggregationMultiplier>Hourly</s:aggregationMultiplier>
+	  <s:billingConfig>
+        <s:cloudCreditBillingConfigs>
+          <s:cloudCreditBillingConfig>
+            <s:billingType>COMMITMENT</s:billingType>
+			<!-- Replace this with real part number to be used for commit model -->
+            <s:gsiPartNumber>B88181</s:gsiPartNumber> <!-- we need to get it from GSI team -->
+          </s:cloudCreditBillingConfig>
+        </s:cloudCreditBillingConfigs>
+      </s:billingConfig>
+      <s:gsiUsageUnit>Hosted Named Users per Hour</s:gsiUsageUnit>      
+    </s:resource>
+  </s:resourceInfoList>  
+  <s:serviceComponents>
+    <s:serviceComponent>
+      <s:identifier>HOSTED NAMED USER</s:identifier>
+      <s:unit>USERS</s:unit>
+      <s:srvcCompsInfo>
+        <s:srvcCompInfo>
+          <s:componentId>7504573</s:componentId>
+          <s:propertyName>HOSTED NAMED USER</s:propertyName>
+          <s:unit>USERS</s:unit>
+          <s:groupConversionFactor>1</s:groupConversionFactor>
+        </s:srvcCompInfo>
+      </s:srvcCompsInfo>
+    </s:serviceComponent>
+  </s:serviceComponents>
+</s:tasBlueprint>
+
